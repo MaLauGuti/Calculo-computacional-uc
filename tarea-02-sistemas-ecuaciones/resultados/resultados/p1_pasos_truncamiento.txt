@@ -1,0 +1,94 @@
+SOLUCIÓN EXACTA (doble precisión IEEE 754):
+  x_1 = 9.7182059348
+  x_2 = -40.2717531325
+  x_3 = 2.1446260415
+  x_4 = 80.2710738839
+
+--- ELIMINACIÓN GAUSSIANA SIMPLE - Matriz Aumentada Inicial (truncada a 3 cifras) ---
+      3.14       -2.71        1.41       -1.73           4
+      9.86        2.71       -7.38       0.428           5
+      2.23       -2.44           1       -1.41           9
+        31        7.38       -2.64       0.111           7
+
+Paso k=1, fila i=2: m_{2,1} = fl(9.86 / 3.14) = 3.14
+
+Paso k=1, fila i=3: m_{3,1} = fl(2.23 / 3.14) = 0.71
+
+Paso k=1, fila i=4: m_{4,1} = fl(31 / 3.14) = 9.87
+
+--- Matriz tras etapa k=1 ---
+      3.14       -2.71        1.41       -1.73           4
+         0        11.2       -11.8        5.85        -7.5
+         0       -0.52           0       -0.19        6.16
+         0          34       -16.5        17.1       -32.4
+
+Paso k=2, fila i=3: m_{3,2} = fl(-0.52 / 11.2) = -0.0464
+
+Paso k=2, fila i=4: m_{4,2} = fl(34 / 11.2) = 3.03
+
+--- Matriz tras etapa k=2 ---
+      3.14       -2.71        1.41       -1.73           4
+         0        11.2       -11.8        5.85        -7.5
+         0           0      -0.547       0.081        5.81
+         0           0        19.2      -0.599        -9.7
+
+Paso k=3, fila i=4: m_{4,3} = fl(19.2 / -0.547) = -35.1
+
+--- Matriz tras etapa k=3 ---
+      3.14       -2.71        1.41       -1.73           4
+         0        11.2       -11.8        5.85        -7.5
+         0           0      -0.547       0.081        5.81
+         0           0           0        2.24         193
+
+Sustitución regresiva (Simple):
+  x_4 = fl(193 / 2.24) = 86.1
+  x_3 = fl(-1.16 / -0.547) = 2.12
+  x_2 = fl(-485 / 11.2) = -43.3
+  x_1 = fl(33 / 3.14) = 10.5
+
+--- ELIMINACIÓN GAUSSIANA CON PIVOTEO MÁXIMO (COMPLETO) - Matriz Inicial ---
+      3.14       -2.71        1.41       -1.73           4
+      9.86        2.71       -7.38       0.428           5
+      2.23       -2.44           1       -1.41           9
+        31        7.38       -2.64       0.111           7
+
+Etapa k=1: Pivote máximo absoluto = 31 (fila 4, col 1) | Orden variables: [1, 2, 3, 4]
+  m_{2,1} = fl(9.86 / 31) = 0.318
+  m_{3,1} = fl(2.23 / 31) = 0.0719
+  m_{4,1} = fl(3.14 / 31) = 0.101
+
+--- Matriz tras etapa k=1 ---
+        31        7.38       -2.64       0.111           7
+         0        0.37       -6.54       0.392        2.78
+         0       -2.97        1.18       -1.41        8.49
+         0       -3.45        1.67       -1.74        3.29
+
+Etapa k=2: Pivote máximo absoluto = -6.54 (fila 2, col 3) | Orden variables: [1, 3, 2, 4]
+  m_{3,2} = fl(1.18 / -6.54) = -0.18
+  m_{4,2} = fl(1.67 / -6.54) = -0.255
+
+--- Matriz tras etapa k=2 ---
+        31       -2.64        7.38       0.111           7
+         0       -6.54        0.37       0.392        2.78
+         0           0        -2.9       -1.33        8.99
+         0           0       -3.35       -1.64        3.99
+
+Etapa k=3: Pivote máximo absoluto = -3.35 (fila 4, col 3) | Orden variables: [1, 3, 2, 4]
+  m_{4,3} = fl(-2.9 / -3.35) = 0.865
+
+--- Matriz tras etapa k=3 ---
+        31       -2.64        7.38       0.111           7
+         0       -6.54        0.37       0.392        2.78
+         0           0       -3.35       -1.64        3.99
+         0           0           0      0.0799        5.54
+
+Sustitución regresiva (Pivoteo Completo):
+  x_perm_4 (x_4) = fl(5.54 / 0.0799) = 69.3
+  x_perm_3 (x_2) = fl(116 / -3.35) = -34.6
+  x_perm_2 (x_3) = fl(-11.6 / -6.54) = 1.77
+  x_perm_1 (x_1) = fl(258 / 31) = 8.32
+
+================ RESUMEN COMPARATIVO (PROBLEMA 1) ================
+Exacta           : [  9.71820593 -40.27175313   2.14462604  80.27107388]
+Gauss Simple     : [ 10.5  -43.3    2.12  86.1 ] | Error rel L_inf = 7.2616e-02
+Pivoteo Completo : [  8.32 -34.6    1.77  69.3 ] | Error rel L_inf = 1.3668e-01
