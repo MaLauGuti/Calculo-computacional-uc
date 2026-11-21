@@ -1,0 +1,21 @@
+=== PROBLEMA 1: DIFERENCIAS DIVIDIDAS DE NEWTON (CÉDULA) ===
+
+Puntos interpolados (x_i, d_i):
+  x = 0  ->  y = 2
+  x = 1  ->  y = 3
+  x = 2  ->  y = 4
+  x = 3  ->  y = 2
+  x = 4  ->  y = 4
+  x = 5  ->  y = 5
+  x = 6  ->  y = 9
+  x = 7  ->  y = 7
+
+Coeficientes del polinomio P(x) (c_{0,i}):
+  c_00 = 2.0000000000
+  c_01 = 1.0000000000
+  c_02 = 0.0000000000
+  c_03 = -0.5000000000
+  c_04 = 0.4166666667
+  c_05 = -0.1833333333
+  c_06 = 0.0597222222
+  c_07 = -0.0170634921
